@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { MeshSurfaceSampler } from 'three/examples/jsm/math/MeshSurfaceSampler.js';
+import fragment from './shader/fragmentShader.glsl';
+import vertex from './shader/vertexShader.glsl';
 
 class Model {
     constructor (obj) {
@@ -9,6 +11,8 @@ class Model {
         this.name = obj.name;
         this.file = obj.file;
         this.scene = obj.scene;
+        this.color1= obj.color1;
+        this.color2= obj.color2;
         this.placeOnLoad = obj.placeOnLoad; 
         this.loader = new GLTFLoader();
         this.dracoLoader = new DRACOLoader();
@@ -42,10 +46,22 @@ class Model {
             /*------------------------------
             Particles Material
             ------------------------------*/
-            this.particlesMaterial = new THREE.PointsMaterial( { 
-                color: 'red', 
-                size: 0.02
-            } );
+            // this.particlesMaterial = new THREE.PointsMaterial( { 
+            //     color: 'red', 
+            //     size: 0.02
+            // } );
+            this.particlesMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    uColor1: {value: new THREE.Color(this.color1)},
+                    uColor2: {value: new THREE.Color(this.color2)}
+                }, 
+                vertexShader: vertex,
+                fragmentShader: fragment,
+                transparent: true,
+                depthTest: false,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
 
 
             /*------------------------------
