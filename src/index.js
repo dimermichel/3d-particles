@@ -59,13 +59,17 @@ const skull = new Model({
   name: 'skull',
   file: './models/skull.glb',
   scene: scene,
+  color1: 'yellow',
+  color2: 'red',
   placeOnLoad: true
 });
 
 const horse = new Model({
   name: 'horse',
   file: './models/horse.glb',
-  scene: scene
+  scene: scene,
+  color1: 'purple',
+  color2: 'blue',
 });
 
 /*------------------------------
