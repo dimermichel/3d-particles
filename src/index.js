@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import gsap from 'gsap';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Model from './model';
 
@@ -42,6 +43,7 @@ const cube = new THREE.Mesh( geometry, material );
 OrbitControls
 ------------------------------*/
 const controls = new OrbitControls( camera, renderer.domElement );
+controls.enabled = false;
 
 
 /*------------------------------
@@ -120,3 +122,18 @@ function onWindowResize() {
   renderer.setSize( window.innerWidth, window.innerHeight );
 }
 window.addEventListener( 'resize', onWindowResize, false );
+
+/*------------------------------
+Mouse Move Event
+------------------------------*/
+function onMouseMove(event) {
+  const x = event.clientX;
+  const y = event.clientY;
+
+  gsap.to(scene.rotation, {
+    y: gsap.utils.mapRange(0, window.innerWidth, 0.2, -0.2, x),
+    x: gsap.utils.mapRange(0, window.innerHeight, 0.2, -0.2, y),
+  })
+}
+
+window.addEventListener( 'mousemove', onMouseMove );
